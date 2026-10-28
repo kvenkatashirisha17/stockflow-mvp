@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}Settings{% endblock %}
+{% block content %}
+<div class="page-heading"><div><div class="eyebrow">WORKSPACE</div><h1>Settings</h1><p class="muted">Customize the basics for your organization.</p></div></div>
+<form method="post" class="panel settings-panel">
+  <div class="form-section-title"><span class="section-number">01</span><div><h2>Organization</h2><p class="muted">Your workspace identity.</p></div></div>
+  <label class="settings-label">Organization name<input type="text" name="organization_name" required maxlength="120" value="{{ request.form.get('organization_name', org.name) }}"></label>
+  <div class="form-divider"></div>
+  <div class="form-section-title"><span class="section-number">02</span><div><h2>Inventory defaults</h2><p class="muted">Used when a product doesn't have its own threshold.</p></div></div>
+  <label class="settings-label">Default low-stock threshold<input type="number" name="default_low_stock_threshold" min="0" step="1" required value="{{ request.form.get('default_low_stock_threshold', org.default_low_stock_threshold) }}"><small>Products with quantity at or below this number appear in Low-stock items.</small></label>
+  <div class="form-actions"><button class="btn btn-primary" type="submit">Save settings <span>→</span></button></div>
+</form>
+<div class="info-note"><strong>Signed-in account</strong><span>{{ session.get('email') }}</span></div>
+{% endblock %}

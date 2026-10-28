@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Products{% endblock %}
+{% block content %}
+<div class="page-heading">
+  <div><div class="eyebrow">YOUR CATALOG</div><h1>Products</h1><p class="muted">Manage items, SKUs, prices, and stock levels.</p></div>
+  <a class="btn btn-primary" href="{{ url_for('create_product') }}">＋ Add product</a>
+</div>
+<section class="panel">
+  <div class="toolbar"><form class="search-form" method="get" action="{{ url_for('products') }}"><span>⌕</span><input name="q" value="{{ search }}" placeholder="Search by product name or SKU"><button class="btn btn-secondary btn-small" type="submit">Search</button>{% if search %}<a class="clear-link" href="{{ url_for('products') }}">Clear</a>{% endif %}</form><span class="result-count">{{ products|length }} item{% if products|length != 1 %}s{% endif %}</span></div>
+  {% if products %}
+  <div class="table-wrap"><table><thead><tr><th>PRODUCT</th><th>SKU</th><th>QUANTITY</th><th>SELLING PRICE</th><th>STOCK STATUS</th><th class="actions-col">ACTIONS</th></tr></thead><tbody>
+  {% for p in products %}
+    {% set threshold = p.low_stock_threshold if p.low_stock_threshold is not none else default_threshold %}
+    <tr>
+      <td><a class="product-name" href="{{ url_for('edit_product', product_id=p.id) }}">{{ p.name }}</a>{% if p.description %}<div class="table-subtitle">{{ p.description }}</div>{% endif %}</td>
+      <td class="sku">{{ p.sku }}</td><td><strong>{{ p.quantity }}</strong><span class="unit-label"> units</span></td>
+      <td>{% if p.selling_price is not none %}₹{{ "%.2f"|format(p.selling_price) }}{% else %}<span class="muted">—</span>{% endif %}</td>
+      <td>{% if p.quantity <= threshold %}<span class="badge badge-low">Low stock · ≤ {{ threshold }}</span>{% else %}<span class="badge badge-good">In stock</span>{% endif %}</td>
+      <td class="actions"><a class="action-link" href="{{ url_for('edit_product', product_id=p.id) }}">Edit</a><form method="post" action="{{ url_for('delete_product', product_id=p.id) }}" onsubmit="return confirm('Delete {{ p.name|e }}? This cannot be undone.');"><button class="action-link danger-link" type="submit">Delete</button></form></td>
+    </tr>
+  {% endfor %}
+  </tbody></table></div>
+  {% else %}
+  <div class="empty-state"><div class="empty-icon">＋</div><h3>{% if search %}No matching products{% else %}Your catalog starts here{% endif %}</h3><p>{% if search %}Try another name or SKU, or clear your search.{% else %}Add your first product to start tracking stock and prices.{% endif %}</p>{% if search %}<a class="btn btn-secondary" href="{{ url_for('products') }}">Clear search</a>{% else %}<a class="btn btn-primary" href="{{ url_for('create_product') }}">Add your first product</a>{% endif %}</div>
+  {% endif %}
+</section>
+{% endblock %}

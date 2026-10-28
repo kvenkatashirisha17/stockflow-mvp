@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Create account{% endblock %}
+{% block content %}
+<section class="auth-layout">
+  <div class="auth-aside">
+    <div class="eyebrow">YOUR BUSINESS, IN CONTROL</div>
+    <h1>Start with a clean<br><em>stockroom.</em></h1>
+    <p>Create your workspace and start tracking products in minutes. Your inventory stays within your organization.</p>
+    <div class="mini-stats"><div><strong>01</strong><span>Owner account</span></div><div><strong>05</strong><span>Default low-stock alert</span></div></div>
+  </div>
+  <div class="auth-card">
+    <div class="eyebrow">GET STARTED</div><h2>Create your workspace</h2><p class="muted">A few details and you're ready to go.</p>
+    <form method="post" class="form-stack">
+      <label>Organization name<input type="text" name="organization_name" placeholder="My Test Store" required maxlength="120" value="{{ request.form.get('organization_name','') }}"></label>
+      <label>Email address<input type="email" name="email" placeholder="you@company.com" required autocomplete="email" value="{{ request.form.get('email','') }}"></label>
+      <label>Password <small>At least 8 characters</small><input type="password" name="password" placeholder="Create a password" minlength="8" required autocomplete="new-password"></label>
+      <label>Confirm password<input type="password" name="confirm_password" placeholder="Repeat your password" minlength="8" required autocomplete="new-password"></label>
+      <button class="btn btn-primary btn-full" type="submit">Create workspace <span>→</span></button>
+    </form>
+    <p class="auth-switch">Already have an account? <a href="{{ url_for('login') }}">Log in</a></p>
+  </div>
+</section>
+{% endblock %}

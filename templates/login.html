@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Log in{% endblock %}
+{% block content %}
+<section class="auth-layout">
+  <div class="auth-aside">
+    <div class="eyebrow">INVENTORY, MADE SIMPLE</div>
+    <h1>Know your stock.<br><em>Own your flow.</em></h1>
+    <p>A clear view of your products, quantities, and low-stock items — all in one place.</p>
+    <div class="mini-stats"><div><strong>01</strong><span>One workspace</span></div><div><strong>∞</strong><span>Room to grow</span></div></div>
+  </div>
+  <div class="auth-card">
+    <div class="eyebrow">WELCOME BACK</div><h2>Log in to StockFlow</h2><p class="muted">Enter your details to continue.</p>
+    <form method="post" class="form-stack">
+      <label>Email address<input type="email" name="email" placeholder="you@company.com" required autocomplete="email"></label>
+      <label>Password<input type="password" name="password" placeholder="Your password" required autocomplete="current-password"></label>
+      <button class="btn btn-primary btn-full" type="submit">Log in <span>→</span></button>
+    </form>
+    <p class="auth-switch">New to StockFlow? <a href="{{ url_for('signup') }}">Create an account</a></p>
+  </div>
+</section>
+{% endblock %}

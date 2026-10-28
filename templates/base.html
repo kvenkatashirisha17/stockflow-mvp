@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}StockFlow{% endblock %} · StockFlow</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="{{ url_for('dashboard') if session.get('user_id') else url_for('login') }}">
+      <span class="brand-mark">S</span> StockFlow
+    </a>
+    {% if session.get('user_id') %}
+    <nav>
+      <a href="{{ url_for('dashboard') }}">Dashboard</a>
+      <a href="{{ url_for('products') }}">Products</a>
+      <a href="{{ url_for('settings') }}">Settings</a>
+    </nav>
+    <div class="account">
+      <span class="org-label">{{ current_org }}</span>
+      <form action="{{ url_for('logout') }}" method="post"><button class="btn btn-quiet btn-small" type="submit">Log out</button></form>
+    </div>
+    {% else %}
+    <nav><a href="{{ url_for('login') }}">Log in</a><a href="{{ url_for('signup') }}">Create account</a></nav>
+    {% endif %}
+  </header>
+  <main class="container">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <div class="flash-stack">
+        {% for category, message in messages %}
+          <div class="flash {{ category }}">{{ message }}</div>
+        {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+    {% block content %}{% endblock %}
+  </main>
+  <footer>StockFlow MVP <span>·</span> Simple inventory, clearly managed.</footer>
+</body>
+</html>
